@@ -1,32 +1,34 @@
-// ==========================================
-// Block Types (Modernized 2026-Compatible)
-// ==========================================
+// blocks.js — dual‑mode (browser + Node)
 
-// Direction enumeration
-export const DIRECTION = Object.freeze({
+// -----------------------------
+// INTERNAL REGISTRY
+// -----------------------------
+const BLOCK = {};
+const DIRECTION = Object.freeze({
     UP: 1,
     DOWN: 2,
-    LEFT: 3,
-    RIGHT: 4,
-    FORWARD: 5,
-    BACK: 6
+    NORTH: 3,
+    SOUTH: 4,
+    WEST: 5,
+    EAST: 6
 });
 
-// BLOCK registry
-export const BLOCK = {};
-
-// Helper to define blocks cleanly
-function defineBlock(name, props) {
-    BLOCK[name] = Object.freeze({
-        id: props.id,
-        spawnable: props.spawnable ?? true,
-        transparent: props.transparent ?? false,
-        selflit: props.selflit ?? false,
-        gravity: props.gravity ?? false,
-        fluid: props.fluid ?? false,
-        texture: props.texture
-    });
+// Helper to register blocks
+function defineBlock(name, data) {
+    BLOCK[name] = {
+        id: data.id,
+        spawnable: data.spawnable ?? true,
+        transparent: data.transparent ?? false,
+        selflit: data.selflit ?? false,
+        gravity: data.gravity ?? false,
+        fluid: data.fluid ?? false,
+        texture: data.texture ?? (() => [0, 0, 1, 1])
+    };
 }
+
+// -----------------------------
+// BLOCK DEFINITIONS (YOUR CODE)
+// -----------------------------
 
 // Air
 defineBlock("AIR", {
@@ -80,7 +82,7 @@ defineBlock("TNT", {
 defineBlock("BOOKCASE", {
     id: 5,
     texture: (world, lightmap, lit, x, y, z, dir) => {
-        if (dir === DIRECTION.FORWARD || dir === DIRECTION.BACK)
+        if (dir === DIRECTION.NORTH || dir === DIRECTION.SOUTH)
             return [3/16, 2/16, 4/16, 3/16];
         return [4/16, 0/16, 5/16, 1/16];
     }
@@ -172,12 +174,14 @@ defineBlock("SPONGE", {
     texture: () => [0/16, 3/16, 1/16, 4/16]
 });
 
-// Lookup by ID
-BLOCK.fromId = function(id) {
-    return Object.values(BLOCK).find(b => b.id === id) || null;
-};
+// -----------------------------
+// EXPORTS (dual‑mode)
+// -----------------------------
+if (typeof window !== "undefined") {
+    window.BLOCK = BLOCK;
+    window.DIRECTION = DIRECTION;
+}
 
-// Export for Node.js
 if (typeof exports !== "undefined") {
     exports.BLOCK = BLOCK;
     exports.DIRECTION = DIRECTION;
