@@ -36,10 +36,9 @@ console.log("Creating new world...");
 world.createFlatWorld(WORLD_GROUNDHEIGHT);
 
 // Attach socket.io to HTTP server
-var io = modules.io(http);
-var server = new modules.network.Server(io, 16);
+var server = new modules.network.Server(modules.io, 16);
 server.setWorld(world);
-server.setLogger(log);
+server.setLogger(console.log);
 server.setOneUserPerIp(true);
 console.log("Waiting for clients...");
 
