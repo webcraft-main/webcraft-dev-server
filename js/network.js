@@ -1,5 +1,5 @@
 // ==========================================
-// Server 
+// Server (2026 Modern Socket.IO Rewrite)
 // ==========================================
 
 const { Server: IOServer } = require("socket.io");
