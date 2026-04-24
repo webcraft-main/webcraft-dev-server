@@ -18,7 +18,8 @@ modules.world = require("./js/world.js");
 modules.network = require("./js/network.js");
 modules.io = require("socket.io");
 modules.fs = require("fs");
-var log = require("util").log;
+
+// No more util.log — use console.log
 
 // HTTP + Express (REQUIRED FOR RENDER)
 const express = require("express");
@@ -31,7 +32,7 @@ global.BLOCK = modules.blocks.BLOCK;
 
 // Create world
 var world = new modules.world.World(WORLD_SX, WORLD_SY, WORLD_SZ);
-log("Creating new world...");
+console.log("Creating new world...");
 world.createFlatWorld(WORLD_GROUNDHEIGHT);
 
 // Attach socket.io to HTTP server
@@ -40,7 +41,7 @@ var server = new modules.network.Server(io, 16);
 server.setWorld(world);
 server.setLogger(log);
 server.setOneUserPerIp(true);
-log("Waiting for clients...");
+console.log("Waiting for clients...");
 
 // Chat commands
 server.on("chat", function (client, nickname, msg) {
