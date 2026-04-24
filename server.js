@@ -37,6 +37,7 @@ world.createFlatWorld(WORLD_GROUNDHEIGHT);
 
 // Attach socket.io to HTTP server INSIDE network.js, not here
 var server = new modules.network.Server(modules.io, 16);
+server.attach(http);
 server.setWorld(world);
 server.setLogger(console.log);
 server.setOneUserPerIp(true);
