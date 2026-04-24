@@ -147,5 +147,7 @@ if (typeof exports !== "undefined") {
     exports.World = World;
 }
 
-// Keep global name for browser compatibility
-window.World = World;
+if (typeof window !== "undefined") {
+    window.World = World;
+}
+
