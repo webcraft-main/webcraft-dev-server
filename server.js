@@ -35,7 +35,7 @@ var world = new modules.world.World(WORLD_SX, WORLD_SY, WORLD_SZ);
 console.log("Creating new world...");
 world.createFlatWorld(WORLD_GROUNDHEIGHT);
 
-// Attach socket.io to HTTP server
+// Attach socket.io to HTTP server INSIDE network.js, not here
 var server = new modules.network.Server(modules.io, 16);
 server.setWorld(world);
 server.setLogger(console.log);
@@ -95,5 +95,5 @@ server.on("leave", function (nickname) {
 // Start server (REQUIRED FOR RENDER)
 const PORT = process.env.PORT || 8080;
 http.listen(PORT, () => {
-    log("Server running on port " + PORT);
+    console.log("Server running on port " + PORT);
 });
