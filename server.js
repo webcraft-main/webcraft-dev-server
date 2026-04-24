@@ -26,6 +26,11 @@ const express = require("express");
 const app = express();
 const http = require("http").createServer(app);
 
+app.get("/health", (req, res) => {
+    res.status(200).send("OK");
+});
+
+
 // Evil globals
 global.Vector = modules.helpers.Vector;
 global.BLOCK = modules.blocks.BLOCK;
